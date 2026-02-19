@@ -1,24 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Color Palette */
-  --primary: #FFB7C5;
-  /* Baby Pink */
-  --primary-light: #FFDDE2;
-  --secondary: #B7E4DA;
-  /* Mint Green */
-  --secondary-light: #E0F5F0;
-  --accent: #B7CEEB;
-  /* Baby Blue */
-  --background: #FCF9F7;
-  /* Warm Cream */
-  --text: #4A4A4A;
-  --text-light: #8E8E8E;
-  --white: #FFFFFF;
-  --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-  --glass: rgba(255, 255, 255, 0.7);
+  /* Common */
   --radius: 20px;
   --radius-sm: 10px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Light Theme */
+  --primary: #FFB7C5;
+  --primary-light: #FFDDE2;
+  --secondary: #B7E4DA;
+  --secondary-light: #E0F5F0;
+  --accent: #B7CEEB;
+  --background: #FCF9F7;
+  --card-bg: #FFFFFF;
+  --text: #4A4A4A;
+  --text-light: #8E8E8E;
+  --glass: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] {
+  --primary: #FF9AA2;
+  --primary-light: #4A3236;
+  --secondary: #84D2C1;
+  --secondary-light: #2D4A43;
+  --accent: #A5C2E6;
+  --background: #1A1A1A;
+  --card-bg: #2D2D2D;
+  --text: #F0F0F0;
+  --text-light: #A0A0A0;
+  --glass: rgba(45, 45, 45, 0.8);
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -59,12 +74,13 @@ h4 {
 }
 
 .card {
-  background: var(--white);
+  background: var(--card-bg);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
   margin-bottom: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border);
+  transition: var(--transition);
 }
 
 .glass-card {
@@ -93,6 +109,13 @@ button {
   background: var(--primary);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 183, 197, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 183, 197, 0.5);
 }
 
 .btn-primary:active {
@@ -103,6 +126,11 @@ button {
   background: var(--secondary);
   color: #2D5A50;
   box-shadow: 0 4px 15px rgba(183, 228, 218, 0.4);
+}
+
+.btn-secondary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
 }
 
 /* Form Elements */
@@ -123,11 +151,12 @@ select {
   width: 100%;
   padding: 14px;
   border-radius: var(--radius-sm);
-  border: 1px solid #EAEAEA;
-  background: #F9F9F9;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--text);
   font-family: inherit;
   font-size: 1rem;
-  transition: border 0.3s ease;
+  transition: var(--transition);
 }
 
 input:focus {
@@ -238,4 +267,75 @@ input:focus {
 .nav-icon {
   font-size: 20px;
   margin-bottom: 2px;
+}
+
+/* Toast System */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: var(--card-bg);
+  border-left: 5px solid var(--primary);
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-weight: 600;
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.toast.success {
+  border-left-color: #25D366;
+}
+
+.toast.error {
+  border-left-color: #f44336;
+}
+
+/* Stock Levels */
+.stock-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.stock-ok {
+  background: var(--secondary-light);
+  color: #2D5A50;
+}
+
+.stock-warning {
+  background: #FFF4E5;
+  color: #FFA000;
+}
+
+.stock-critical {
+  background: #FFE5E5;
+  color: #f44336;
+}
+
+/* Search Bar */
+.search-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238e8e8e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  padding-left: 45px !important;
 }
